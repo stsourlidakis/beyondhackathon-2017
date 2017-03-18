@@ -8,6 +8,9 @@ var app = {
 		document.addEventListener('deviceready', this.onDeviceReady, false);
 	},
 	onDeviceReady: function() {
+		$(".loader").fadeOut(function(){
+			$(".container").fadeIn();
+		});
 	},
 	receivedEvent: function(id) {
 	},
