@@ -1,4 +1,4 @@
-var socket = io('http://localhost');
+var socket = io('/');
 
 var nextOffers = ['New credit card', 'Επιστροφή program', 'Low interest loan'];
 
