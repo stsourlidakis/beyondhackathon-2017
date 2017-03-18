@@ -38,13 +38,14 @@ var app = {
 				xhrObj.setRequestHeader("Content-Type","application/octet-stream");
 				xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", app.ocpToken);
 			},
-		   	crossDomain: true,
+			crossDomain: true,
 			type: "POST",
 			// Request body
 			data: imageData,
 			processData: false
 		})
 		.done(function(data) {
+			$(".info #detect").text("Face Detected");
 			app.identify(data[0].faceId);
 		})
 		.fail(function(data) {
@@ -59,7 +60,7 @@ var app = {
 		var binary_string = atob(base64);
 		var len = binary_string.length;
 		var bytes = new Uint8Array( len );
-		for (var i = 0; i < len; i++)        {
+		for (var i = 0; i < len; i++)	{
 			bytes[i] = binary_string.charCodeAt(i);
 		}
 		return bytes.buffer;
@@ -72,21 +73,37 @@ var app = {
 			"confidenceThreshold": 0.5
 		};
 		$.ajax({
-            url: "https://westus.api.cognitive.microsoft.com/face/v1.0/identify",
-            beforeSend: function(xhrObj){
-                // Request headers
-                xhrObj.setRequestHeader("Content-Type","application/json");
-                xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key",app.ocpToken);
-            },
+			url: "https://westus.api.cognitive.microsoft.com/face/v1.0/identify",
+			beforeSend: function(xhrObj){
+				// Request headers
+				xhrObj.setRequestHeader("Content-Type","application/json");
+				xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key",app.ocpToken);
+			},
 		   crossDomain: true,
-            type: "POST",
+		   type: "POST",
 			data: JSON.stringify(params)
-        })
-        .done(function(data) {
-			// Connect to the API
 		})
-        .fail(function() {
-            alert("error");
-        });
+		.done(function(data) {
+			$(".info #identify").text("Customer Identified");
+			app.customerIdentified(data[0].candidates[0].personId);
+		})
+		.fail(function() {
+			alert("error");
+		});
+	},
+	customerIdentified: function (personId){
+		$.get({
+			url: "http://beyondhackathon.cloudapp.net/arrived/" + personId,
+		})
+		.done(function(data) {
+			$(".info #trigger").text("Backend informed");
+			setTimeout(app.clearInfo, 5000);
+		})
+		.fail(function() {
+			alert("error");
+		});
+	},
+	clearInfo: function(){
+		$(".info div").text("");
 	}
 };

@@ -33,6 +33,9 @@ body{
 .container{
 	display: none;
 }
+.info div{
+	color: #5adf1a;
+}
 input{
 	background: #3498db;
 	background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
