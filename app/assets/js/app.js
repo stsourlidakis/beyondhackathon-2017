@@ -1,6 +1,6 @@
 var socket = io('/');
 var initialized = false;
-var jp = {
+var jane = {
 	"id":"abc",
 	"personId": "abc",
 	"name":"Jane Doe",
@@ -70,10 +70,15 @@ socket.on('new-vip-customer', function (data) {
 		return;
 	}
 	addCustomer(data.customer);
-	$(".customer.active").removeClass("active");
-	serveCustomer(data.customer.id);
-	//renderCustomerData();
+	showCustomer(data.customer.id);
+
 });
+
+function showCustomer(id){
+	$(".customer.active").removeClass("active");
+	$(".customer").last().addClass("active");
+	renderCustomerData(id);
+}
 
 function addCustomer(customer){
 	customers[customer.id] = customer;
@@ -111,7 +116,8 @@ function getNextOffer(name){
 	return nextOffers[offerNum];
 }
 $(document).ready( function() {
-	addCustomer(jp);
+	addCustomer(jane);
+	showCustomer(jane.id);
 	$("#customer-list").on("click", ".customer", function(){
 		$(".customer.active").removeClass("active");
 		$(this).addClass("active");
