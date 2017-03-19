@@ -22,6 +22,10 @@ app.get('/arrived/:personId', function(req, res){
 			name: doc.name,
 			title: doc.title,
 			image: `/static/photos/${doc.localImageName}`,
+			lastVisit: doc.lastVisit,
+			creditBill: doc.creditBill,
+			loanDebt: doc.loanDebt,
+			capitalControlLimit: doc.capitalControlLimit,
 			transactions: doc.transactions
 		};
 		io.sockets.emit('new-vip-customer', { customer: customer });
