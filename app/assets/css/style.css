@@ -57,8 +57,8 @@ html, body{
 	display: none;
 	padding: 30px;
 }
-#customer-card.served{
-	background-color: rgba(98, 204, 24, .7);
+.served{
+	background-color: rgba(98, 204, 24, .7) !important;
 }
 #customer-card #avatar{
 	margin-left: auto;

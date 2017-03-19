@@ -2,42 +2,14 @@ var socket = io('/');
 var initialized = false;
 var jp = {
 	"id":"abc",
-	"name":"John Prantalos",
-	"title":"Mr",
-	"image":"/static/photos/jp.jpg",
+	"name":"Jane Doe",
+	"title":"Mrs",
+	"image":"/static/photos/jan.png",
 	"lastVisit":"17/03/2017",
-	"creditBill":"0",
-	"loanDebt":"1340",
+	"creditBill":"100",
+	"loanDebt":"40",
 	"capitalControlLimit":"750",
 	"transactions":[
-		{
-			"transaction_date":"2017-02-22",
-			"value_date":"2017-02-22",
-			"description":"Πληρωμή Βεβαιωμένης Οφειλής 766",
-			"amount":-15.67,
-			"new_balance":5985.97
-		},
-		{
-			"transaction_date":"2017-02-21",
-			"value_date":"2017-02-21",
-			"description":"Κατάθεση 303",
-			"amount":86.19,
-			"new_balance":6037.63
-		},
-		{
-			"transaction_date":"2017-02-21",
-			"value_date":"2017-02-21",
-			"description":"Κατάθεση 755",
-			"amount":44.69,
-			"new_balance":6082.32
-		},
-		{
-			"transaction_date":"2017-02-21",
-			"value_date":"2017-02-21",
-			"description":"Πληρωμή Βεβαιωμένης Οφειλής 580",
-			"amount":-80.68,
-			"new_balance":6001.64
-		},
 		{
 			"transaction_date":"2017-02-20",
 			"value_date":"2017-02-20",
@@ -128,6 +100,9 @@ function renderCustomerData(customerId){
 	wrapper.find('#capital-control').text(customers[customerId].capitalControlLimit);
 	var transBody = "";
 	for (var i = 0; i < customers[customerId].transactions.length; i++) {
+		if (i>4) {
+			break;
+		}
 		var tr = "<tr><td>"+ customers[customerId].transactions[i].transaction_date +"</td><td>" + customers[customerId].transactions[i].amount  + "</td>	<td>" + customers[customerId].transactions[i].new_balance +"</td><td>" + customers[customerId].transactions[i].value_date +"</td><td>"+ customers[customerId].transactions[i].description +"</td></tr>";
 		transBody = transBody +tr;
 	}
@@ -150,6 +125,15 @@ $(document).ready( function() {
 		renderCustomerData(this.id);
 	});
 	$("#customer-card #serveBtn").on("click", function(){
-		$(this).closest("#customer-card").addClass('served');
+		$(".served").removeClass("served");
+		//$(this).closest("#customer-card").addClass('served');
+		var uid = $(this).data('user_id');
+		$("#"+uid).addClass('served');
+		serveCustomer(uid);
 	});
 });
+function serveCustomer(uid){
+	$.get({
+		url: "/person/"+uid+"/message/something"
+	});
+}
