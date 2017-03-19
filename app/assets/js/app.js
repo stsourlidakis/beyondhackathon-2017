@@ -1,7 +1,7 @@
 var socket = io('/');
 var initialized = false;
 var jp = {
-	"id":"1",
+	"id":"abc",
 	"name":"John Prantalos",
 	"title":"Mr",
 	"image":"/static/photos/jp.jpg",
@@ -120,6 +120,7 @@ function renderCustomerData(customerId){
 	var wrapper = $("#customer-card");
 	wrapper.find('#avatar').css("background-image", 'url("' + customers[customerId].image + '")');
 	wrapper.find('#name').text(customers[customerId].name);
+	wrapper.find('#serveBtn').data('user_id',customers[customerId].id);
 	wrapper.find('#visited').text(customers[customerId].lastVisit);
 	wrapper.find('#balance').text(customers[customerId].transactions[0].new_balance);
 	wrapper.find('#credit-bill').text(customers[customerId].creditBill);
@@ -147,5 +148,8 @@ $(document).ready( function() {
 		$(".customer.active").removeClass("active");
 		$(this).addClass("active");
 		renderCustomerData(this.id);
+	});
+	$("#customer-card #serveBtn").on("click", function(){
+		$(this).closest("#customer-card").addClass('served');
 	});
 });
