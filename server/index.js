@@ -5,6 +5,8 @@ const express = require('express'),
 		io = require('socket.io')(http),
 		db = require('./lib/db.js');
 
+let pendingMessages = [];
+
 app.use('/static', express.static('static'));
 app.use('/', express.static('../app'));
 
@@ -28,6 +30,28 @@ app.get('/arrived/:personId', function(req, res){
 	.catch(function(error){
 		console.log(error);
 		res.json({success: false, error: error});
+	});
+});
+
+app.get('/person/:personId/message/:message', function(req, res){
+	db.vipCustomers.findOne({personId: req.params.personId})
+	.then(function(doc){
+		if(!doc){
+			throw(`Unkown personId: ${req.params.personId}`)
+		}
+		pendingMessages.push(`Welcome ${doc.title}. ${doc.name}. ${req.params.message}`);
+
+		res.json({success: true});
+	})
+	.catch(function(error){
+		console.log(error);
+		res.json({success: false, error: error});
+	});
+});
+
+app.get('/message', function(req, res){
+	res.json({
+		message: pendingMessages.shift()
 	});
 });
 
