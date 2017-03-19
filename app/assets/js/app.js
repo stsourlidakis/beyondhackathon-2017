@@ -2,6 +2,7 @@ var socket = io('/');
 var initialized = false;
 var jp = {
 	"id":"abc",
+	"personId": "abc",
 	"name":"Jane Doe",
 	"title":"Mrs",
 	"image":"/static/photos/jan.png",
@@ -68,23 +69,15 @@ socket.on('new-vip-customer', function (data) {
 	if (customers[data.customer.id]) {
 		return;
 	}
-	hideLoaderPanel();
-	addCustomer(data.customer)
+	addCustomer(data.customer);
+	$(".customer.active").removeClass("active");
+	serveCustomer(data.customer.id);
 	//renderCustomerData();
-	showCustomerPanel();
 });
-
-function hideLoaderPanel(){
-	$('#loader').hide();
-}
-
-function showCustomerPanel(){
-	$('#vipCustomer').fadeIn();
-}
 
 function addCustomer(customer){
 	customers[customer.id] = customer;
-	var customer_card = '<div id="'+customer.id+'" class="customer"><div class="avatar"></div><div class="name">' + customer.name +'</div></div>';
+	var customer_card = '<div id="'+customer.id+'" class="customer active"><div class="avatar"></div><div class="name">' + customer.name +'</div></div>';
 	$("#customer-list").hide().append(customer_card).fadeIn();
 	$("#" + customer.id + " .avatar").css("background-image", 'url("' + customer.image + '")');
 }
@@ -133,7 +126,9 @@ $(document).ready( function() {
 	});
 });
 function serveCustomer(uid){
+	console.log(customers[uid]);
+	var pid = customers[uid].personId;
 	$.get({
-		url: "/person/"+uid+"/message/something"
+		url: "/person/"+pid+"/message/something"
 	});
 }
