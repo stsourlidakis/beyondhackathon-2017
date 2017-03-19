@@ -49,7 +49,7 @@ app.get('/person/:personId/message/:message', function(req, res){
 		pendingMessages.push({
 			name: `${doc.title}. ${doc.name}`,
 			message: req.params.message,
-			queueNumber: ~~(Math.random()*10),
+			queueNumber: 15,
 			clerkName: 'Mr. Iosif Mpoukas',
 			clerkPhoto: '/static/photos/clerk.jpg',
 			directions: 'first office to the left'
