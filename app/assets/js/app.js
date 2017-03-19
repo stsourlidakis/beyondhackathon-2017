@@ -1,89 +1,86 @@
 var socket = io('/');
 var initialized = false;
 var jp = {
-	"success":true,
-	"customer":{
-		"id":"58cd4366f36d286bfca49a1c",
-		"name":"John Prantalos",
-		"title":"Mr",
-		"image":"/static/photos/jp.jpg",
-		"lastVisit":"17/03/2017",
-		"creditBill":"0",
-		"loanDebt":"1340",
-		"capitalControlLimit":"750",
-		"transactions":[
-			{
-				"transaction_date":"2017-02-22",
-				"value_date":"2017-02-22",
-				"description":"Πληρωμή Βεβαιωμένης Οφειλής 766",
-				"amount":-15.67,
-				"new_balance":5985.97
-			},
-			{
-				"transaction_date":"2017-02-21",
-				"value_date":"2017-02-21",
-				"description":"Κατάθεση 303",
-				"amount":86.19,
-				"new_balance":6037.63
-			},
-			{
-				"transaction_date":"2017-02-21",
-				"value_date":"2017-02-21",
-				"description":"Κατάθεση 755",
-				"amount":44.69,
-				"new_balance":6082.32
-			},
-			{
-				"transaction_date":"2017-02-21",
-				"value_date":"2017-02-21",
-				"description":"Πληρωμή Βεβαιωμένης Οφειλής 580",
-				"amount":-80.68,
-				"new_balance":6001.64
-			},
-			{
-				"transaction_date":"2017-02-20",
-				"value_date":"2017-02-20",
-				"description":"Κατάθεση 202",
-				"amount":48.71,
-				"new_balance":5963.77
-			},
-			{
-				"transaction_date":"2017-02-20",
-				"value_date":"2017-02-20",
-				"description":"Πληρωμή Βεβαιωμένης Οφειλής 215",
-				"amount":-65.84,
-				"new_balance":5897.93
-			},
-			{
-				"transaction_date":"2017-02-20",
-				"value_date":"2017-02-20",
-				"description":"Κατάθεση 746",
-				"amount":53.51,
-				"new_balance":5951.44
-			},
-			{
-				"transaction_date":"2017-02-17",
-				"value_date":"2017-02-17",
-				"description":"Κατάθεση 435",
-				"amount":65.47,
-				"new_balance":5827.78
-			},
-			{
-				"transaction_date":"2017-02-17",
-				"value_date":"2017-02-17",
-				"description":"Κατάθεση 197",
-				"amount":87.28,
-				"new_balance":5915.06
-			},
-			{
-				"transaction_date":"2017-02-16",
-				"value_date":"2017-02-16",
-				"description":"Ανάληψη 199",
-				"amount":-97.17,
-				"new_balance":5854.47
-			}
-		]
-	}
+	"id":"1",
+	"name":"John Prantalos",
+	"title":"Mr",
+	"image":"/static/photos/jp.jpg",
+	"lastVisit":"17/03/2017",
+	"creditBill":"0",
+	"loanDebt":"1340",
+	"capitalControlLimit":"750",
+	"transactions":[
+		{
+			"transaction_date":"2017-02-22",
+			"value_date":"2017-02-22",
+			"description":"Πληρωμή Βεβαιωμένης Οφειλής 766",
+			"amount":-15.67,
+			"new_balance":5985.97
+		},
+		{
+			"transaction_date":"2017-02-21",
+			"value_date":"2017-02-21",
+			"description":"Κατάθεση 303",
+			"amount":86.19,
+			"new_balance":6037.63
+		},
+		{
+			"transaction_date":"2017-02-21",
+			"value_date":"2017-02-21",
+			"description":"Κατάθεση 755",
+			"amount":44.69,
+			"new_balance":6082.32
+		},
+		{
+			"transaction_date":"2017-02-21",
+			"value_date":"2017-02-21",
+			"description":"Πληρωμή Βεβαιωμένης Οφειλής 580",
+			"amount":-80.68,
+			"new_balance":6001.64
+		},
+		{
+			"transaction_date":"2017-02-20",
+			"value_date":"2017-02-20",
+			"description":"Κατάθεση 202",
+			"amount":48.71,
+			"new_balance":5963.77
+		},
+		{
+			"transaction_date":"2017-02-20",
+			"value_date":"2017-02-20",
+			"description":"Πληρωμή Βεβαιωμένης Οφειλής 215",
+			"amount":-65.84,
+			"new_balance":5897.93
+		},
+		{
+			"transaction_date":"2017-02-20",
+			"value_date":"2017-02-20",
+			"description":"Κατάθεση 746",
+			"amount":53.51,
+			"new_balance":5951.44
+		},
+		{
+			"transaction_date":"2017-02-17",
+			"value_date":"2017-02-17",
+			"description":"Κατάθεση 435",
+			"amount":65.47,
+			"new_balance":5827.78
+		},
+		{
+			"transaction_date":"2017-02-17",
+			"value_date":"2017-02-17",
+			"description":"Κατάθεση 197",
+			"amount":87.28,
+			"new_balance":5915.06
+		},
+		{
+			"transaction_date":"2017-02-16",
+			"value_date":"2017-02-16",
+			"description":"Ανάληψη 199",
+			"amount":-97.17,
+			"new_balance":5854.47
+		}
+	]
 };
 
 var customers = {};
@@ -96,8 +93,12 @@ var nextOffers = [
 
 socket.on('new-vip-customer', function (data) {
 	console.log(data);
+	if (customers[data.customer.id]) {
+		return;
+	}
 	hideLoaderPanel();
-	renderCustomerData(data.customer);
+	addCustomer(data.customer)
+	//renderCustomerData();
 	showCustomerPanel();
 });
 
@@ -110,10 +111,9 @@ function showCustomerPanel(){
 }
 
 function addCustomer(customer){
-	customer = customer.customer;
 	customers[customer.id] = customer;
 	var customer_card = '<div id="'+customer.id+'" class="customer"><div class="avatar"></div><div class="name">' + customer.name +'</div></div>';
-	$("#customer-list").append(customer_card);
+	$("#customer-list").hide().append(customer_card).fadeIn();
 	$("#" + customer.id + " .avatar").css("background-image", 'url("' + customer.image + '")');
 }
 function renderCustomerData(customerId){
@@ -143,7 +143,7 @@ function getNextOffer(name){
 }
 $(document).ready( function() {
 	addCustomer(jp);
-	$(".customer").on("click", function(){
+	$("#customer-list").on("click", ".customer", function(){
 		$(".customer.active").removeClass("active");
 		$(this).addClass("active");
 		renderCustomerData(this.id);
