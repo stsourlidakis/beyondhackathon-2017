@@ -1,0 +1,91 @@
+html, body{
+	background-color: rgba(236, 236, 236, 1);
+	height: 100%;
+	padding: 0px;
+}
+.container-fluid, #content{
+	height: 100%;
+}
+#customer-list{
+	padding-top: 30px;
+	background-color: rgba(130, 130, 130, 1);
+	border-right: 2px solid rgba(82, 82, 82,1 );
+	height: 100%;
+}
+#customer-list .customer{
+	border-bottom: 2px solid rgba(82, 82, 82, .1);
+	padding-bottom: 15px;
+	margin-bottom: 15px;
+	opacity: .6;
+}
+#customer-list .customer.active{
+	background-color: rgba(236, 236, 236, 1);
+	margin-left: -15px;
+	margin-right: -17px;
+	padding: 15px 0px;
+	border-right: 2px solid rgba(236, 236, 236, 1);
+	opacity: 1;
+}
+#customer-list .customer.active .avatar{
+	border: 2px solid rgba(66, 66, 66, 1);
+	border-bottom: 0px;
+}
+#customer-list .customer.active .name{
+	border-top: 0px;
+	border: 2px solid rgba(66, 66, 66, 1);
+}
+#customer-list .customer .avatar{
+	margin-left: auto;
+	margin-right: auto;
+	width: 120px;
+	height: 120px;
+	background-size: 100% auto;
+	background-position: center;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+}
+#customer-list .customer .name{
+	margin-left: auto;
+	margin-right: auto;
+	padding: 5px 10px;
+	width: 120px;
+	background-color: rgba(255, 255, 255, 1);
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+#customer-card{
+	display: none;
+	padding: 30px;
+}
+#customer-card #avatar{
+	margin-left: auto;
+	margin-right: auto;
+	width: 250px;
+	height: 250px;
+	background-size: 100% auto;
+	background-position: center;
+	border-top-left-radius: 15px;
+	border-bottom-left-radius: 15px;
+}
+#customer-card #info{
+	padding: 30px;
+	font-size: 18px;
+	height: 250px;
+	background-color: rgba(255, 255, 255, 1);
+	border-top-right-radius: 15px;
+	border-bottom-right-radius: 15px;
+}
+#customer-card #info #name{
+	font-size: 40px;
+}
+#customer-card #controls{
+	text-align: right;
+	margin: -20px 35px 20px 0px;
+}
+#customer-card #transactions{
+	width: 980px;
+	margin-top: 15px;
+	padding: 30px;
+	background-color: rgba(255, 255, 255, 1);
+	border-radius: 20px;
+}
