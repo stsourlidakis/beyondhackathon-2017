@@ -8,7 +8,7 @@ html, body{
 }
 #customer-list{
 	padding-top: 30px;
-	background-color: rgba(130, 130, 130, 1);
+	background-color: rgba(223, 223, 223, 1);
 	border-right: 2px solid rgba(82, 82, 82,1 );
 	height: 100%;
 }
