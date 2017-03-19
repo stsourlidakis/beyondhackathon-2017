@@ -19,6 +19,7 @@ app.get('/arrived/:personId', function(req, res){
 		}
 
 		let customer = {
+			personId: req.params.personId,
 			id: doc._id,
 			name: doc.name,
 			title: doc.title,
