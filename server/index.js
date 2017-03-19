@@ -19,16 +19,16 @@ app.get('/arrived/:personId', function(req, res){
 			id: doc._id,
 			name: doc.name,
 			title: doc.title,
-			image: `/static/photos/${doc.localImageName}`
+			image: `/static/photos/${doc.localImageName}`,
+			transactions: doc.transactions
 		};
 		io.sockets.emit('new-vip-customer', { customer: customer });
-
+		res.json({success: true, customer: customer});
 	})
 	.catch(function(error){
 		console.log(error);
+		res.json({success: false, error: error});
 	});
-
-	res.json({success: true});
 });
 
 const port = process.env.PORT || 80;
