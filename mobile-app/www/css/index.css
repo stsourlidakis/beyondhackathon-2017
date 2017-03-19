@@ -16,19 +16,22 @@ body{
 	height: 100%;
 	background: rgba(240, 240, 240, 1) url('../img/logo.png') no-repeat center center;
 }
-.button{
-	width: 220px;
-	height: 220px;
+.button1, .button2{
 	background-size: 100%;
 	margin-left: auto;
 	margin-right: auto;
 	background-image: url("../img/button.png");
 }
-.button:hover{
-	background-image: url("../img/button_hover.png");
+.button1{
+	width: 220px;
+	height: 220px;
+	background-image: url("../img/button.png");
 }
-.button:focus{
+.button2{
+	width: 150px;
+	height: 150px;
 	background-image: url("../img/button_pressed.png");
+
 }
 .container{
 	display: none;

@@ -15,10 +15,20 @@ var app = {
 	receivedEvent: function(id) {
 	},
 	takePhoto() {
+		app.clearInfo();
 		navigator.camera.getPicture(this.onSuccess, this.onFail, {
 			quality: 50,
-			destinationType: Camera.DestinationType.DATA_URL
-			// sourceType: Camera.PictureSourceType.CAMERA,
+			destinationType: Camera.DestinationType.DATA_URL,
+			sourceType: Camera.PictureSourceType.CAMERA
+			// correctOrientation: true
+		});
+	},
+	choosePhoto(){
+		app.clearInfo();
+		navigator.camera.getPicture(this.onSuccess, this.onFail, {
+			quality: 50,
+			destinationType: Camera.DestinationType.DATA_URL,
+			sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
 			// correctOrientation: true
 		});
 	},

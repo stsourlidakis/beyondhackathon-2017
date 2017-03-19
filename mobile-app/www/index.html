@@ -12,7 +12,8 @@
 <body>
 	<div class="loader"></div>
 	<div class="container">
-		<div class="button"></div>
+		<div class="button1"></div>
+		<div class="button2"></div>
 		<div class="info">
 			<div id="detect"></div>
 			<div id="identify"></div>
@@ -25,8 +26,11 @@
 	<script type="text/javascript">
 		app.initialize();
 		$(document).ready( function() {
-			$(".button").on("click", function(){
+			$(".button1").on("click", function(){
 				app.takePhoto();
+			})
+			$(".button2").on("click", function(){
+				app.choosePhoto();
 			})
 		});
 	</script>
