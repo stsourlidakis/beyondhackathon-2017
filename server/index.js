@@ -23,6 +23,7 @@ app.get('/arrived/:personId', function(req, res){
 			id: doc._id,
 			name: doc.name,
 			title: doc.title,
+		    flagged: doc.flagged,
 			image: `/static/photos/${doc.localImageName}`,
 			lastVisit: doc.lastVisit,
 			creditBill: doc.creditBill,

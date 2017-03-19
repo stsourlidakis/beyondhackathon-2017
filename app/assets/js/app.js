@@ -70,19 +70,24 @@ socket.on('new-vip-customer', function (data) {
 		return;
 	}
 	addCustomer(data.customer);
-	showCustomer(data.customer.id);
+	if(!data.customer.flagged){
+		showCustomer(data.customer.id);
+	}
 
 });
 
 function showCustomer(id){
-	$(".customer.active").removeClass("active");
-	$(".customer").last().addClass("active");
-	renderCustomerData(id);
+	$('#customer-card').fadeOut(function(){
+		$(".customer.active").removeClass("active");
+		$(".customer").last().addClass("active");
+		renderCustomerData(id);
+		$(this).fadeIn();
+	});
 }
 
 function addCustomer(customer){
 	customers[customer.id] = customer;
-	var customer_card = '<div id="'+customer.id+'" class="customer active"><div class="avatar"></div><div class="name">' + customer.name +'</div></div>';
+	var customer_card = '<div id="'+customer.id+'" class="customer active'+(customer.flagged?' flagged':'')+'"><div class="avatar"></div><div class="name">' + customer.name +'</div></div>';
 	$("#customer-list").hide().append(customer_card).fadeIn();
 	$("#" + customer.id + " .avatar").css("background-image", 'url("' + customer.image + '")');
 }
