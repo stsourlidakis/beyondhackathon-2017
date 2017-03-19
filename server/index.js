@@ -9,6 +9,7 @@ let pendingMessages = [];
 
 app.use('/static', express.static('static'));
 app.use('/', express.static('../app'));
+app.use('/mobile', express.static('../client-mobile'));
 
 app.get('/arrived/:personId', function(req, res){
 	db.vipCustomers.findOne({personId: req.params.personId})
@@ -43,7 +44,14 @@ app.get('/person/:personId/message/:message', function(req, res){
 		if(!doc){
 			throw(`Unkown personId: ${req.params.personId}`)
 		}
-		pendingMessages.push(`Welcome ${doc.title}. ${doc.name}. ${req.params.message}`);
+		pendingMessages.push({
+			name: `${doc.title}. ${doc.name}`,
+			message: req.params.message,
+			queueNumber: ~~(Math.random()*10),
+			clerkName: 'Mr. Iosif Mpoukas',
+			clerkPhoto: '/static/photos/clerk.jpg',
+			directions: 'first office to the left'
+		});
 
 		res.json({success: true});
 	})

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Mobile</title>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<style>
+		#messageWrapper, .serviceInfo{
+			display: none;
+		}
+		.serviceToggle{
+			margin-bottom: 5px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<img id="defaultImage" class="img-responsive" src="./assets/eurobankAppScreen.png" alt="eurobankAppScreen">
+		<div id="messageWrapper">
+			<div id="greeting" class="h2">Welcome <div id="name"></div></div>
+			<div class="h3">What do you need?</div>
+			<div class="btn btn-default col-xs-12 text-center serviceToggle">Cashier</div>
+			<div class="serviceInfo">
+				Your premium queue number: <span id="queueNumber"></span>
+			</div>
+			<div class="btn btn-default col-xs-12 text-center serviceToggle">Clerk</div>
+			<div class="serviceInfo">
+				<div>Visit: <span id="clerkName"></span></div>
+				<div>Find him at: <span id="directions"></span></div>
+				<img id="clerkPhoto" class="img-responsive img-round" src="/static/photos/clerk.jpg" alt="clerk photo">
+			</div>
+		</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.2.0.min.js" integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I=" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="./assets/main.js"></script>
+	<script>
+		var intervalId;
+		var defaultTitle = document.title;
+		$(document).ready(function(){
+			intervalId = setInterval(polling, 1000);
+			$('.serviceToggle').on('click', function(){
+				$(this).toggleClass('btn-default').toggleClass('btn-success');
+				$(this).next('.serviceInfo').toggle();
+			});
+		});
+		var endpoint = '/';
+		function polling(){
+			$.get({
+				url: '/message'
+			})
+			.done(function(data) {
+				if(data.message){
+					handleNewMessage(data.message);
+					flashTitle();
+				} else {
+					console.log('No new messages');
+				}
+
+			})
+			.fail(function(data) {
+				console.log('error: ', data.status);
+				stopPolling();
+			});
+		}
+
+		function handleNewMessage(message){
+			hideDummy();
+			renderMessage(message);
+			showMessage();
+		}
+
+		function hideDummy(){
+			$('#defaultImage').hide();
+		}
+
+		function renderMessage(data){
+			var el = $('#messageWrapper');
+			console.log(data);
+			el.find('#name').text(data.name);
+			el.find('#queueNumber').text(data.queueNumber);
+			el.find('#clerkName').text(data.clerkName);
+			el.find('#clerkPhoto').text(data.clerkPhoto);
+			el.find('#directions').text(data.directions);
+		}
+
+		function showMessage(){
+			$('#messageWrapper').fadeIn();
+		}
+
+		function stopPolling(){
+			clearInterval(intervalId);
+		}
+
+		function flashTitle(){	//as quick and dirty as it gets
+			document.title = defaultTitle;
+			setTimeout(function(){
+				document.title = 'New message';
+				setTimeout(function(){
+					document.title = defaultTitle;
+					setTimeout(function(){
+						document.title = 'New message';
+						setTimeout(function(){
+							document.title = defaultTitle;
+						}, 1000);
+					}, 1000);
+				}, 1000);
+			}, 1000);
+		}
+	</script>
+</body>
+</html>
