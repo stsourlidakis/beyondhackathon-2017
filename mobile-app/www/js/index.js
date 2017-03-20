@@ -1,5 +1,5 @@
 var app = {
-	ocpToken: "b71f29d014184520bdd8cfa9dcf2bcbe",
+	ocpToken: "",	//the key was hardcoded for the hackathon and regenerated after the end of the event. 
 	initialize: function() {
 		$.support.cors = true;
 		this.bindEvents();
